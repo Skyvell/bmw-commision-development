@@ -1,5 +1,5 @@
-resource "aws_iam_role" "example_lambda_role" {
-  name = "example_lambda_role"
+resource "aws_iam_role" "parser_lambda_role" {
+  name = "parser_lambda_role"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17",
@@ -15,8 +15,8 @@ resource "aws_iam_role" "example_lambda_role" {
   })
 }
 
-resource "aws_iam_role_policy" "lambda_policy" {
-  role = aws_iam_role.example_lambda_role.name
+resource "aws_iam_role_policy" "parser_lambda_policy" {
+  role = aws_iam_role.parser_lambda_role.name
 
   policy = jsonencode({
     Version = "2012-10-17",
@@ -34,10 +34,13 @@ resource "aws_iam_role_policy" "lambda_policy" {
   })
 }
 
-resource "aws_lambda_function" "example_lambda" {
-  function_name = "ExampleLambdaTeddy"
-  role          = aws_iam_role.example_lambda_role.arn
+resource "aws_lambda_function" "parser_lambda" {
+  function_name = "parser_lambda"
+  role          = aws_iam_role.parser_lambda_role.arn
   handler       = "handler.lambda_handler"
   runtime       = "python3.11"
-  filename      = "../dist/example_lambda.zip"
+  filename      = "../dist/parser_lambda.zip"
+  source_code_hash = filebase64sha256("../dist/parser_lambda.zip")
+
+  layers = [aws_lambda_layer_version.pandas_layer.arn]
 }
