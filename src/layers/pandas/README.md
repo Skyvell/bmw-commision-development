@@ -1,0 +1,1 @@
+This source code in python should not change. This will be used to generate the zip file for deployment. Each folder should have a requirements.txt and instructions on how to install it. E.g. lambda layer needs some special instructions for it to run on linux if compiled on Mac.

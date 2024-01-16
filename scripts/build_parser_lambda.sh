@@ -1,4 +1,8 @@
 #!/bin/bash
+
+# Maybe specify directories to include in an array?
+# Then include them in the zip file.
+
 PARSER_LAMBDA_DIR="../src/parser-lambda/"
 DESTINATION="../../dist"
 
