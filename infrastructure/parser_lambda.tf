@@ -39,8 +39,8 @@ resource "aws_lambda_function" "parser_lambda" {
   role          = aws_iam_role.parser_lambda_role.arn
   handler       = "handler.lambda_handler"
   runtime       = "python3.11"
-  filename      = "../dist/parser_lambda.zip"
-  source_code_hash = filebase64sha256("../dist/parser_lambda.zip")
+  filename      = "../builds/lambdas/parser.zip"
+  source_code_hash = filebase64sha256("../builds/lambdas/parser.zip")
 
   layers = [aws_lambda_layer_version.pandas_layer.arn]
 }

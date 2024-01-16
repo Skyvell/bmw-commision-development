@@ -7,63 +7,31 @@
 #PENETRATAION_RATE = "PENETRATION RATE"
 #VOLUME_TARGET_ACHIEVEMENT = "VOLUME TARGET ACHIEVEMENT"
 import json
-import requests
 import pandas as pd
 
 def lambda_handler(event, context):
-    # URL for the GET request
-    url = "http://httpbin.org/get"
-    data = {
+    try:
+        # Create a synthetic DataFrame (you can replace this with your own data)
+        data = {
             "Name": ["Alice", "Bob", "Charlie", "David"],
             "Age": [25, 30, 35, 40]
         }
-    df = pd.DataFrame(data)
+        df = pd.DataFrame(data)
 
+        # Perform a simple operation (e.g., calculate the mean of the 'Age' column)
+        mean_age = df["Age"].mean()
 
-    try:
-        # Making a GET request
-        response = requests.get(url)
-        
-        # Returning the response
+        # Return the result as JSON
         return {
             "statusCode": 200,
-            "body": json.dumps({
-                "message": "Request successful",
-                "data": response.json()
-            })
+            "body": json.dumps({"mean_age": mean_age})
         }
-    except requests.RequestException as e:
-        # Handle any exceptions
+    except Exception as e:
+        # Handle any errors and return an error response
         return {
             "statusCode": 500,
-            "body": json.dumps({
-                "error_message": str(e)
-            })
+            "body": json.dumps({"error_message": str(e)})
         }
-
-#def lambda_handler(event, context):
-#    try:
-#        # Create a synthetic DataFrame (you can replace this with your own data)
-#        data = {
-#            "Name": ["Alice", "Bob", "Charlie", "David"],
-#            "Age": [25, 30, 35, 40]
-#        }
-#        df = pd.DataFrame(data)
-#
-#        # Perform a simple operation (e.g., calculate the mean of the 'Age' column)
-#        mean_age = df["Age"].mean()
-#
-#        # Return the result as JSON
-#        return {
-#            "statusCode": 200,
-#            "body": json.dumps({"mean_age": mean_age})
-#        }
-#    except Exception as e:
-#        # Handle any errors and return an error response
-#        return {
-#            "statusCode": 500,
-#            "body": json.dumps({"error_message": str(e)})
-#        }
 
 
 #def main(event, context):

@@ -3,29 +3,24 @@
 # Maybe specify directories to include in an array?
 # Then include them in the zip file.
 
-PARSER_LAMBDA_DIR="../src/parser-lambda/"
-DESTINATION="../../dist"
+# Path for all lambda layers.
+LAMBDA_DIR="../src/lambdas/parser"
 
-# Enter lambda dir and creates the .zip file from requirements file.
-# See AWS doc for file structure.
-cd "$PARSER_LAMBDA_DIR"
-mkdir -p package
-pip3 install -r requirements.txt -t ./package
-cd package
-#zip -9 -r ../parser_lambda.zip .
+# Output path for all lambda layer zip-files.
+OUTPUT_DIR="../builds/lambdas"
 
-# Back to lambda dir.
-cd ..
+# Add output directory in case it does not exist already.
+mkdir -p "$OUTPUT_DIR"
 
-# Add handler.py to the existing zip file.
-zip -9 -r parser_lambda.zip handler.py
+# Install requirements to package.
+pip3 install -r requirements.txt -t "${LAMBDA_DIR}/package"
 
-# Creates the destination if it does not exist.
-mkdir -p "$DESTINATION"
-
-# Move the final zip file to the destination. Overwrites privious zipfiles in the destination dir.
-mv parser_lambda.zip "$DESTINATION"
-
-# Clean up the package directory.
-rm -r package
-
+# Check if the package directory exists
+if [ -d "${LAMBDA_DIR}/package" ]; then
+    # If the package directory exists, include it in the zip command.
+    zip -9 -r "${OUTPUT_DIR}/parser.zip" "${LAMBDA_DIR}/handler.py" "${LAMBDA_DIR}/package"
+    rm -r "${LAMBDA_DIR}/package"
+else
+    # If the package directory does not exist, only zip handler.py.
+    zip -9 -r "${OUTPUT_DIR}/parser.zip" "${LAMBDA_DIR}/handler.py"
+fi

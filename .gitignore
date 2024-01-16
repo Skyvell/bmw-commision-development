@@ -2,5 +2,4 @@ __pycache__
 .pytest_cache
 .terraform/
 venv/
-lambda_layers/pandas_layer/python
-lambda_layers/pandas_layer/pandas_layer.zip
+*.zip

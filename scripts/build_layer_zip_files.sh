@@ -16,5 +16,5 @@ mkdir -p "$OUTPUT_DIR"
 # Iterate through all the layers and create the zipfiles in the output dir.
 # Adds _layer.zip as an extension to the layer name.
 for layer in "${LAYERS[@]}"; do
-    zip -9 -r "${OUTPUT_DIR}/${layer}_layer.zip" "${LAYERS_DIR}/${layer}/python"
+    zip -9 -r "${OUTPUT_DIR}/${layer}.zip" "${LAYERS_DIR}/${layer}/python"
 done
