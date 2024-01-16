@@ -35,11 +35,11 @@ resource "aws_iam_role_policy" "parser_lambda_policy" {
 }
 
 resource "aws_lambda_function" "parser_lambda" {
-  function_name = "parser_lambda"
-  role          = aws_iam_role.parser_lambda_role.arn
-  handler       = "handler.lambda_handler"
-  runtime       = "python3.11"
-  filename      = "../builds/lambdas/parser.zip"
+  function_name    = "parser_lambda"
+  role             = aws_iam_role.parser_lambda_role.arn
+  handler          = "handler.lambda_handler"
+  runtime          = "python3.11"
+  filename         = "../builds/lambdas/parser.zip"
   source_code_hash = filebase64sha256("../builds/lambdas/parser.zip")
 
   layers = [aws_lambda_layer_version.pandas_layer.arn]

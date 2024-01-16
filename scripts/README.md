@@ -1,0 +1,1 @@
+All scripts should be run from the scripts folder until 
