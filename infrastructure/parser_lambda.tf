@@ -30,6 +30,19 @@ resource "aws_iam_role_policy" "parser_lambda_policy" {
         Resource = "arn:aws:logs:*:*:*",
         Effect   = "Allow",
       },
+      {
+        Action = [
+          "s3:GetObject",
+          "s3:PutObject",
+          "s3:DeleteObject",
+          "s3:ListBucket",
+        ],
+        Resource = [
+          "arn:aws:s3:::${aws_s3_bucket.bmw_data_upload_bucket.bucket}/*",
+          "arn:aws:s3:::${aws_s3_bucket.bmw_data_upload_bucket.bucket}"
+        ],
+        Effect = "Allow"
+      }
     ],
   })
 }
@@ -41,6 +54,13 @@ resource "aws_lambda_function" "parser_lambda" {
   runtime          = "python3.11"
   filename         = "../builds/lambdas/parser.zip"
   source_code_hash = filebase64sha256("../builds/lambdas/parser.zip")
-
   layers = [aws_lambda_layer_version.pandas_layer.arn]
+  timeout = 30
+
+  environment {
+    variables = {
+      DYNAMODB_TABLE_NAME_COMMISSION_MATRICES = aws_dynamodb_table.commission-matrices
+      DYNAMODB_TABLE_NAME_VOLUME_TARGETS = aws_dynamodb_table.volume-targets
+    }
+  }
 }

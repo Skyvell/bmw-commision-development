@@ -1,16 +1,16 @@
 resource "aws_dynamodb_table" "commission-matrices" {
   name         = "comission-matrices"
   billing_mode = "PAY_PER_REQUEST"
-  hash_key     = "Market"
-  range_key    = "Year"
+  hash_key     = "market"
+  range_key    = "year"
 
   attribute {
-    name = "Year"
-    type = "N"
+    name = "year"
+    type = "S"
   }
 
   attribute {
-    name = "Market"
+    name = "market"
     type = "S"
   }
 
@@ -22,16 +22,16 @@ resource "aws_dynamodb_table" "commission-matrices" {
 resource "aws_dynamodb_table" "volume-targets" {
   name         = "volume-targets"
   billing_mode = "PAY_PER_REQUEST"
-  hash_key     = "Agent"
-  range_key    = "MonthYear"
+  hash_key     = "agent"
+  range_key    = "month_year"
 
   attribute {
-    name = "Agent"
+    name = "agent"
     type = "S"
   }
 
   attribute {
-    name = "MonthYear"
+    name = "month_year"
     type = "S"
   }
 
