@@ -3,3 +3,4 @@ __pycache__
 .terraform/
 venv/
 *.zip
+.DS_Store
