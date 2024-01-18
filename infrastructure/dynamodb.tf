@@ -23,7 +23,7 @@ resource "aws_dynamodb_table" "volume-targets" {
   name         = "volume-targets"
   billing_mode = "PAY_PER_REQUEST"
   hash_key     = "agent"
-  range_key    = "month_year"
+  range_key    = "year_month"
 
   attribute {
     name = "agent"
@@ -31,7 +31,7 @@ resource "aws_dynamodb_table" "volume-targets" {
   }
 
   attribute {
-    name = "month_year"
+    name = "year_month"
     type = "S"
   }
 

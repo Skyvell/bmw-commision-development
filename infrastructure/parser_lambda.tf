@@ -38,11 +38,22 @@ resource "aws_iam_role_policy" "parser_lambda_policy" {
           "s3:ListBucket",
         ],
         Resource = [
-          "arn:aws:s3:::${aws_s3_bucket.bmw_data_upload_bucket.bucket}/*",
-          "arn:aws:s3:::${aws_s3_bucket.bmw_data_upload_bucket.bucket}"
+          "${aws_s3_bucket.bmw_data_upload_bucket.arn}/*",
+          aws_s3_bucket.bmw_data_upload_bucket.arn
         ],
         Effect = "Allow"
-      }
+      },
+      {
+        Action = [
+          "dynamodb:PutItem",
+          "dynamodb:BatchWriteItem",
+        ],
+        Effect = "Allow",
+        Resource = [
+          aws_dynamodb_table.commission-matrices.arn,
+          aws_dynamodb_table.volume-targets.arn
+        ]
+      },
     ],
   })
 }
@@ -54,13 +65,13 @@ resource "aws_lambda_function" "parser_lambda" {
   runtime          = "python3.11"
   filename         = "../builds/lambdas/parser.zip"
   source_code_hash = filebase64sha256("../builds/lambdas/parser.zip")
-  layers = [aws_lambda_layer_version.pandas_layer.arn]
-  timeout = 30
+  layers           = [aws_lambda_layer_version.pandas_layer.arn]
+  timeout          = 30
 
   environment {
     variables = {
-      DYNAMODB_TABLE_NAME_COMMISSION_MATRICES = aws_dynamodb_table.commission-matrices
-      DYNAMODB_TABLE_NAME_VOLUME_TARGETS = aws_dynamodb_table.volume-targets
+      DYNAMODB_TABLE_NAME_COMMISSION_MATRICES = aws_dynamodb_table.commission-matrices.name
+      DYNAMODB_TABLE_NAME_VOLUME_TARGETS      = aws_dynamodb_table.volume-targets.name
     }
   }
 }
