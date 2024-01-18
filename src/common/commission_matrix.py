@@ -1,13 +1,18 @@
 class CommissionResult:
-    def __init__(self, elegible: bool, commission: float):
-        self.eligible = elegible
+    def __init__(self, eligible: bool, commission: float):
+        self.eligible = eligible
         self.commission = commission
 
 class CommissionMatrix:
-    def __init__(self, json):
-        self.matrix = json['matrix']
-        self.x_axis = json['x-axis']
-        self.y_axis = json['y-axis']
+    def __init__(self, data: dict, year: str, market: str):
+        # Do I need these parsed?
+        # Added these after tests were written.
+        self.year = year
+        self.market = market
+
+        self.matrix = data['matrix']
+        self.x_axis = data['x-axis']
+        self.y_axis = data['y-axis']
     
     def get_commission(self, penetration_rate: float, target_volume_achieved: float):
         if not self._is_eligible_for_commission(penetration_rate, target_volume_achieved):
@@ -15,6 +20,15 @@ class CommissionMatrix:
         
         commission = self.matrix[self._find_row_index(penetration_rate)][self._find_column_index(target_volume_achieved)]
         return CommissionResult(True, commission)
+
+    # Do I want this method?
+    def write_to_dynamodb(self, table):
+        item = {
+            "market": self.market,
+            "year": self.year,
+            "matrix": self.matrix_data
+        }
+        table.put_item(item)
 
     def _find_row_index(self, penetration_rate: float) -> int:
         for i in range(len(self.y_axis) - 1):
