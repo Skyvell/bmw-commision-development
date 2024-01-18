@@ -19,7 +19,7 @@ OUTPUT_DIR="${PROJECT_ROOT_DIR}//builds/lambdas"
 mkdir -p "$OUTPUT_DIR"
 
 # Install requirements to package.
-# pip3 install -r "${LAMBDA_DIR}/requirements.txt" -t "${LAMBDA_DIR}/package"
+pip3 install -r "${LAMBDA_DIR}/requirements.txt" -t "${LAMBDA_DIR}/package"
 
 # Remove old zip file.
 rm -f "${OUTPUT_DIR}/parser.zip"
