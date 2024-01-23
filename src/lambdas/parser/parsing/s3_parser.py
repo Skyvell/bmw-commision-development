@@ -36,7 +36,6 @@ class S3FileParser:
         else:
             raise NoFileParsedError(f"Unknown file type: {self.file_metadata.file_type} for file: {self.file_metadata.file_name}")
 
-    
     def _extract_bucket_name(self, event):
         return event['Records'][0]['s3']['bucket']['name']
     
