@@ -1,10 +1,9 @@
 #!/bin/bash
 
-# Maybe specify directories to include in an array?
-# Then include them in the zip file.
-
 # Import functions.
 source ./helper_functions.sh
+
+FILES_TO_INCLUDE_IN_ZIP=(handler.py constants.py utils parsing)
 
 # Get project root directory.
 PROJECT_ROOT_DIR=$(find_path_ending_with $(pwd) "commission")
@@ -13,7 +12,7 @@ PROJECT_ROOT_DIR=$(find_path_ending_with $(pwd) "commission")
 LAMBDA_DIR="${PROJECT_ROOT_DIR}/src/lambdas/parser"
 
 # Output path for all lambda layer zip-files.
-OUTPUT_DIR="${PROJECT_ROOT_DIR}//builds/lambdas"
+OUTPUT_DIR="${PROJECT_ROOT_DIR}/builds/lambdas"
 
 # Add output directory in case it does not exist already.
 mkdir -p "$OUTPUT_DIR"
@@ -28,9 +27,9 @@ rm -f "${OUTPUT_DIR}/parser.zip"
 cd "$LAMBDA_DIR"
 if [ -d "./package" ]; then
     # If the package directory exists, include it in the zip command.
-    zip -9 -r "${OUTPUT_DIR}/parser.zip" handler.py package
+    zip -9 -r "${OUTPUT_DIR}/parser.zip" "${FILES_TO_INCLUDE_IN_ZIP[@]}" package
     rm -r package
 else
     # If the package directory does not exist, only zip handler.py.
-    zip -9 -r "${OUTPUT_DIR}/parser.zip" handler.py
+    zip -9 -r "${OUTPUT_DIR}/parser.zip" "${FILES_TO_INCLUDE_IN_ZIP[@]}"
 fi
