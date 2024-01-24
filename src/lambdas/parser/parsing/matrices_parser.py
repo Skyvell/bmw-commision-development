@@ -1,7 +1,7 @@
 import pandas as pd
 from io import BytesIO
-from utils.conversion import convert_floats_to_decimals
-from constants import PENETRATION_RATE, VOLUME_TARGET_ACHIEVEMENT
+from src.lambdas.parser.utils.conversion import convert_floats_to_decimals
+from src.lambdas.parser.constants import PENETRATION_RATE, VOLUME_TARGET_ACHIEVEMENT
 
 
 class CommissionMatricesParser:
@@ -52,7 +52,7 @@ class CommissionMatricesParser:
         data = {
             "x_axis": x_axis,
             "y_axis": y_axis,
-            "matrix": matrix
+            "values": matrix
         }
 
         return data
