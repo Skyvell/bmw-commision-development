@@ -10,25 +10,25 @@ class CommissionMatrix:
         self.year = year
         self.market = market
 
-        self.matrix = data['matrix']
+        self.values = data['values']
         self.x_axis = data['x-axis']
         self.y_axis = data['y-axis']
     
-    def get_commission(self, penetration_rate: float, target_volume_achieved: float):
+    def get_commission(self, target_volume_achieved: float, penetration_rate: float):
         if not self._is_eligible_for_commission(penetration_rate, target_volume_achieved):
             return CommissionResult(False, 0)
         
-        commission = self.matrix[self._find_row_index(penetration_rate)][self._find_column_index(target_volume_achieved)]
+        commission = self.values[self._find_row_index(penetration_rate)][self._find_column_index(target_volume_achieved)]
         return CommissionResult(True, commission)
 
     # Do I want this method?
-    def write_to_dynamodb(self, table):
-        item = {
-            "market": self.market,
-            "year": self.year,
-            "matrix": self.matrix_data
-        }
-        table.put_item(item)
+    # def write_to_dynamodb(self, table):
+    #     item = {
+    #         "market": self.market,
+    #         "year": self.year,
+    #         "values": self.matrix_data
+    #     }
+    #     table.put_item(item)
 
     def _find_row_index(self, penetration_rate: float) -> int:
         for i in range(len(self.y_axis) - 1):
