@@ -1,6 +1,7 @@
 import pytest
 from src.common.commission_matrix import CommissionMatrix
 
+
 # Arrange.
 commission_matrix = {
     'values': [[0.15, 0.17, 0.19], 
@@ -9,6 +10,7 @@ commission_matrix = {
     'x-axis': [0.5, 0.6, 0.7],
     'y-axis': [0.6, 0.7, 0.8]
 }
+
 
 def test_initialization():
     # Arrange.
@@ -20,6 +22,7 @@ def test_initialization():
                          [0.05, 0.07, 0.09]]
     assert cm.x_axis == [0.5, 0.6, 0.7]
     assert cm.y_axis == [0.6, 0.7, 0.8]
+
 
 def test_commission_calculations():
     # Arrange.
