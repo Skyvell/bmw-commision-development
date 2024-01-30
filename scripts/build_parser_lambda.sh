@@ -1,8 +1,12 @@
 #!/bin/bash
 
-# Import functions.
-source ./helper_functions.sh
+# Get the directory where the script is located.
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
+# Import functions from helper_functions.sh located in the scripts folder.
+source "${SCRIPT_DIR}/helper_functions.sh"
+
+# These files and directories should be included in final zip package.
 FILES_TO_INCLUDE_IN_ZIP=(handler.py constants.py utils parsing)
 
 # Get project root directory.
